@@ -1,5 +1,47 @@
 # Changelog
 
+## [0.1.11](https://github.com/aws/language-server-runtimes/compare/language-server-runtimes-types/v0.1.10...language-server-runtimes-types/v0.1.11) (2025-04-07)
+
+
+### Features
+
+* added chat history protocol ([#410](https://github.com/aws/language-server-runtimes/issues/410)) ([a4fcef6](https://github.com/aws/language-server-runtimes/commit/a4fcef6459f4224a6bf16d3ce6e88ef326fec3aa))
+
+## [0.1.10](https://github.com/aws/language-server-runtimes/compare/language-server-runtimes-types/v0.1.9...language-server-runtimes-types/v0.1.10) (2025-04-02)
+
+
+### Features
+
+* context support in protocol ([#404](https://github.com/aws/language-server-runtimes/issues/404)) ([70b8507](https://github.com/aws/language-server-runtimes/commit/70b8507f1c95a79d74c49e7153e772d11372dc65))
+
+## [0.1.9](https://github.com/aws/language-server-runtimes/compare/language-server-runtimes-types/v0.1.8...language-server-runtimes-types/v0.1.9) (2025-04-02)
+
+
+### Bug Fixes
+
+* add requestId to InlineChat response ([#403](https://github.com/aws/language-server-runtimes/issues/403)) ([3bee702](https://github.com/aws/language-server-runtimes/commit/3bee70222b6d9bd3e5bde3b046593be2e80b8d4c))
+
+## [0.1.8](https://github.com/aws/language-server-runtimes/compare/language-server-runtimes-types/v0.1.7...language-server-runtimes-types/v0.1.8) (2025-04-01)
+
+
+### Features
+
+* add contextList to chat message for supporting context transparency ([#401](https://github.com/aws/language-server-runtimes/issues/401)) ([839247d](https://github.com/aws/language-server-runtimes/commit/839247d3be76e419030d364ffefb13e5f5a02ef9))
+
+## [0.1.7](https://github.com/aws/language-server-runtimes/compare/language-server-runtimes-types/v0.1.6...language-server-runtimes-types/v0.1.7) (2025-04-01)
+
+
+### Features
+
+* add extension for inline chat ([#391](https://github.com/aws/language-server-runtimes/issues/391)) ([52abd83](https://github.com/aws/language-server-runtimes/commit/52abd839b396c92863bca18c9bb33a7875192c3d))
+
+## [0.1.6](https://github.com/aws/language-server-runtimes/compare/language-server-runtimes-types/v0.1.5...language-server-runtimes-types/v0.1.6) (2025-03-25)
+
+
+### Features
+
+* **types:** add imports to InlineCompletionItemWithReferences type ([#388](https://github.com/aws/language-server-runtimes/issues/388)) ([e16977c](https://github.com/aws/language-server-runtimes/commit/e16977c0da3c343377079e3686f4d637363427d8))
+
 ## [0.1.5](https://github.com/aws/language-server-runtimes/compare/language-server-runtimes-types/v0.1.4...language-server-runtimes-types/v0.1.5) (2025-03-20)
 
 

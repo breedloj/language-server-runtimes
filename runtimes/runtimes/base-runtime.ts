@@ -40,6 +40,11 @@ import {
     fileClickNotificationType,
     queryInlineProjectContextRequestType,
     queryVectorIndexRequestType,
+    inlineChatRequestType,
+    contextCommandsNotificationType,
+    createPromptNotificationType,
+    listConversationsRequestType,
+    conversationClickRequestType,
 } from '../protocol'
 import { createConnection } from 'vscode-languageserver/browser'
 import {
@@ -76,6 +81,7 @@ import { LoggingServer } from './lsp/router/loggingServer'
 import { Service } from 'aws-sdk'
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service'
 import { getClientInitializeParamsHandlerFactory } from './util/lspCacheUtil'
+import { newAgent } from './agent'
 
 declare const self: WindowOrWorkerGlobalScope
 
@@ -133,6 +139,7 @@ export const baseRuntime = (connections: { reader: MessageReader; writer: Messag
 
     const chat: Chat = {
         onChatPrompt: handler => lspConnection.onRequest(chatRequestType.method, handler),
+        onInlineChatPrompt: handler => lspConnection.onRequest(inlineChatRequestType.method, handler),
         onEndChat: handler => lspConnection.onRequest(endChatRequestType.method, handler),
         onQuickAction: handler => lspConnection.onRequest(quickActionRequestType.method, handler),
         onSendFeedback: handler => lspConnection.onNotification(feedbackNotificationType.method, handler),
@@ -149,6 +156,10 @@ export const baseRuntime = (connections: { reader: MessageReader; writer: Messag
         openTab: params => lspConnection.sendRequest(openTabRequestType.method, params),
         sendChatUpdate: params => lspConnection.sendNotification(chatUpdateNotificationType.method, params),
         onFileClicked: handler => lspConnection.onNotification(fileClickNotificationType.method, handler),
+        sendContextCommands: params => lspConnection.sendNotification(contextCommandsNotificationType.method, params),
+        onCreatePrompt: handler => lspConnection.onNotification(createPromptNotificationType.method, handler),
+        onListConversations: handler => lspConnection.onRequest(listConversationsRequestType.method, handler),
+        onConversationClick: handler => lspConnection.onRequest(conversationClickRequestType.method, handler),
     }
 
     const identityManagement: IdentityManagement = {
@@ -249,6 +260,8 @@ export const baseRuntime = (connections: { reader: MessageReader; writer: Messag
         )
         credentialsProvider.onCredentialsDeleted = lspServer.setCredentialsDeleteHandler
 
+        const agent = newAgent()
+
         return s({
             chat,
             credentialsProvider,
@@ -261,6 +274,7 @@ export const baseRuntime = (connections: { reader: MessageReader; writer: Messag
             identityManagement,
             notification: lspServer.notification,
             sdkInitializator: sdkInitializator,
+            agent,
         })
     })
 

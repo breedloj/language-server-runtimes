@@ -9,6 +9,7 @@ import {
     Runtime,
     Notification,
     SDKInitializator,
+    Agent,
 } from '.'
 import { IdentityManagement } from './identity-management'
 
@@ -41,4 +42,5 @@ export type Features = {
     identityManagement: IdentityManagement
     notification: Notification
     sdkInitializator: SDKInitializator
+    agent: Agent
 }
