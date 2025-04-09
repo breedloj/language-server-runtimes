@@ -23,8 +23,6 @@ import {
     didChangeDependencyPathsNotificationType,
     openFileDiffNotificationType,
     selectWorkspaceItemRequestType,
-    queryVectorIndexRequestType,
-    queryInlineProjectContextRequestType,
 } from '../protocol'
 import { ProposedFeatures, createConnection } from 'vscode-languageserver/node'
 import {
@@ -79,6 +77,7 @@ import { getTelemetryLspServer } from './util/telemetryLspServer'
 import { getClientInitializeParamsHandlerFactory } from './util/lspCacheUtil'
 import { makeProxyConfigv2Standalone, makeProxyConfigv3Standalone } from './util/standalone/proxyUtil'
 import { newAgent } from './agent'
+import { LocalProjectContext } from './project/localProjectContext'
 
 // Honor shared aws config file
 if (checkAWSConfigFile()) {
@@ -229,12 +228,6 @@ export const standalone = (props: RuntimeProps) => {
             },
         }
 
-        const project: Project = {
-            onQueryInlineProjectContext: handler =>
-                lspConnection.onRequest(queryInlineProjectContextRequestType, handler),
-            onQueryVectorIndex: handler => lspConnection.onRequest(queryVectorIndexRequestType, handler),
-        }
-
         if (!encryptionKey) {
             chat = new BaseChat(lspConnection)
         }
@@ -301,6 +294,14 @@ export const standalone = (props: RuntimeProps) => {
 
         const sdkProxyConfigManager = new ProxyConfigManager(telemetry)
 
+        const localProjectContext = new LocalProjectContext(
+            lspConnection,
+            encoding,
+            logging,
+            documentsObserver.callbacks
+        )
+        lspRouter.servers.push(localProjectContext.getLspServer())
+
         // Initialize every Server
         const disposables = props.servers.map(s => {
             // Create LSP server representation that holds internal server state
@@ -365,6 +366,11 @@ export const standalone = (props: RuntimeProps) => {
                         lspConnection.onNotification(didChangeDependencyPathsNotificationType, handler)
                     },
                 },
+            }
+
+            const project: Project = {
+                queryInlineProjectContext: async params => localProjectContext.queryInlineProjectContext(params),
+                queryVectorIndex: async params => localProjectContext.queryVectorIndex(params),
             }
 
             const isExperimentalProxy = process.env.EXPERIMENTAL_HTTP_PROXY_SUPPORT === 'true'

@@ -30,6 +30,7 @@ describe('standalone', () => {
         stubConnection = stubInterface<vscodeLanguageServer.Connection>()
         stubConnection.console = stubInterface<vscodeLanguageServer.RemoteConsole>()
         stubConnection.telemetry = stubInterface<vscodeLanguageServer.Telemetry>()
+        stubConnection.workspace = stubInterface<vscodeLanguageServer.RemoteWorkspace>()
 
         sinon.stub(vscodeLanguageServer, 'createConnection').returns(stubConnection)
 
@@ -69,7 +70,7 @@ describe('standalone', () => {
                 'Runtime: Initializing runtime without encryption'
             )
             sinon.assert.calledWithExactly(baseChatModule.BaseChat as unknown as sinon.SinonStub, stubConnection)
-            sinon.assert.calledThrice(lspRouterStub.servers.push as sinon.SinonStub)
+            sinon.assert.callCount(lspRouterStub.servers.push as sinon.SinonStub, 4)
             sinon.assert.calledOnce(stubConnection.listen)
         })
 
@@ -118,7 +119,7 @@ describe('standalone', () => {
                 encryptionInitialization.key,
                 encryptionInitialization.mode
             )
-            sinon.assert.calledThrice(lspRouterStub.servers.push as sinon.SinonStub)
+            sinon.assert.callCount(lspRouterStub.servers.push as sinon.SinonStub, 4)
             sinon.assert.calledOnce(stubConnection.listen)
         })
     })

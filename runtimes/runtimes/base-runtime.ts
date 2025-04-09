@@ -38,8 +38,6 @@ import {
     selectWorkspaceItemRequestType,
     chatUpdateNotificationType,
     fileClickNotificationType,
-    queryInlineProjectContextRequestType,
-    queryVectorIndexRequestType,
     inlineChatRequestType,
     contextCommandsNotificationType,
     createPromptNotificationType,
@@ -133,8 +131,14 @@ export const baseRuntime = (connections: { reader: MessageReader; writer: Messag
     }
 
     const project: Project = {
-        onQueryInlineProjectContext: handler => lspConnection.onRequest(queryInlineProjectContextRequestType, handler),
-        onQueryVectorIndex: handler => lspConnection.onRequest(queryVectorIndexRequestType, handler),
+        queryInlineProjectContext: params =>
+            Promise.resolve({
+                inlineProjectContext: [],
+            }),
+        queryVectorIndex: params =>
+            Promise.resolve({
+                chunks: [],
+            }),
     }
 
     const chat: Chat = {

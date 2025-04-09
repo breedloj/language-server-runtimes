@@ -1,5 +1,4 @@
 import {
-    RequestHandler,
     QueryInlineProjectContextParams,
     QueryInlineProjectContextResult,
     QueryVectorIndexParams,
@@ -7,8 +6,6 @@ import {
 } from '../protocol'
 
 export type Project = {
-    onQueryVectorIndex: (handler: RequestHandler<QueryVectorIndexParams, QueryVectorIndexResult, void>) => void
-    onQueryInlineProjectContext: (
-        handler: RequestHandler<QueryInlineProjectContextParams, QueryInlineProjectContextResult, void>
-    ) => void
+    queryInlineProjectContext: (params: QueryInlineProjectContextParams) => Promise<QueryInlineProjectContextResult>
+    queryVectorIndex: (params: QueryVectorIndexParams) => Promise<QueryVectorIndexResult>
 }
