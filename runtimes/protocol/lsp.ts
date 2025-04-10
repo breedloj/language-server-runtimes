@@ -47,6 +47,14 @@ export class AutoParameterStructuresProtocolRequestType<P, R, PR, E, RO>
     }
 }
 
+export interface ContextConfiguration {
+    gitIgnoreFilePatterns?: string[]
+    includeSymLinks?: boolean
+    validFileExtensions?: string[]
+    maxFileSizeMb?: number
+    maxIndexSizeMb?: number
+}
+
 /**
  * Extended Client information, passed from client extension to server at initialization.
  * Use to pass additional information about Client Extension, which connects to Language Server,
@@ -112,6 +120,7 @@ export interface AWSInitializationOptions {
             notifications?: boolean
         }
     }
+    contextConfiguration?: ContextConfiguration
     /**
      * Global region configuration option set by the client application.
      * Server implementations can use this value to preconfigure SDKs, API clients, etc. at server process startup.
