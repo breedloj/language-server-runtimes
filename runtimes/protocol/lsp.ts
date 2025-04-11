@@ -47,11 +47,40 @@ export class AutoParameterStructuresProtocolRequestType<P, R, PR, E, RO>
     }
 }
 
+/**
+ * Configuration interface for setting up local context file indexing.
+ * Controls what files are indexed, size limitations, and indexing behavior.
+ */
 export interface ContextConfiguration {
-    gitIgnoreFilePatterns?: string[]
+    /**
+     * Array of file patterns to be be excluded from indexing. Patterns must follow the git ignore convention.
+     */
+    ignoreFilePatterns?: string[]
+
+    /**
+     * Flag to determine whether symbolic links should be included in indexing.
+     * When true, symlinks will be added to the repomap created before indexing.
+     * When false or undefined, symlinks will be ignored.
+     */
     includeSymLinks?: boolean
-    validFileExtensions?: string[]
+
+    /**
+     * List of file extensions that should be included.
+     * Example: ['.ts', '.js', '.json']
+     * Files with extensions not in this list will be ignored.
+     */
+    fileExtensions?: string[]
+
+    /**
+     * Maximum allowed size for individual files in megabytes.
+     * Files larger than this limit will not be included in the index.
+     */
     maxFileSizeMb?: number
+
+    /**
+     * Maximum allowed size for the entire index in megabytes.
+     * Processing will stop when this limit is reached.
+     */
     maxIndexSizeMb?: number
 }
 
